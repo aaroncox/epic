@@ -9,17 +9,9 @@ class Epic_Controller_Action extends Zend_Controller_Action
 {
 	
 	public function preDispatch() {
-		if($profile = Epic_Auth::getInstance()->getProfile()) {
-			$this->view->profile = $profile;
-			$this->view->context()->widget($this->view->render("/_widget/user.phtml"));			
-		} else {
-			$this->view->context()->widget($this->view->render("/_widget/welcome.phtml"));						
-		}
 	}
 	
 	public function postDispatch() {
-		$this->view->context()->widget($this->view->render("/_widget/blogroll.phtml"));					
-		$this->view->context()->widget($this->view->render("/_widget/twitter.phtml"));					
 	}
 	
 	protected $_forceProcess = false;
