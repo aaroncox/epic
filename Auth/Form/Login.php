@@ -5,7 +5,7 @@
  * @package default
  * @author Aaron Cox
  **/
-class Epic_Form_Login extends Epic_Form
+class Epic_Auth_Form_Login extends Epic_Form
 {
 	/**
 	 * init - undocumented function

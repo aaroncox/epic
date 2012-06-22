@@ -21,7 +21,7 @@ class Epic_View_Helper_MLink extends Zend_View_Helper_Abstract
 		}
 		return $this->view->htmlTag("a", array(
 			'href' => $this->view->url(array(
-				$doc->route => $doc,
+				'record' => $doc,
 			)+$urlParams, $doc->route, true),
 		), $linkText);
 	}

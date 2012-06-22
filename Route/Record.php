@@ -76,7 +76,7 @@ class Epic_Route_Record extends Zend_Controller_Router_Route {
 		if(!in_array($params['type'], static::$types)) {
 			return null;
 		}
-		// var_dump(Epic_Mongo::db($params['type'])->fetchOne(array('id'=>(int)$params['id'])), $params['id']);
+		// var_dump(Epic_Mongo::db($params['type'])->fetchOne(array('id'=>(int)$params['id'])), $params['id']); exit;
 		return Epic_Mongo::db($params['type'])->fetchOne(array('id'=>(int)$params['id']));
 	}
 
@@ -85,7 +85,7 @@ class Epic_Route_Record extends Zend_Controller_Router_Route {
 		$match = parent::match($path, $partial);
 		// var_dump($match, $path, $partial); exit;
 		if ($match) {
-			$record = $this->getrecord($match);
+			$record = $this->getRecord($match);
 			if (!$record) {
 				$this->_values = array(); return false;
 			}
