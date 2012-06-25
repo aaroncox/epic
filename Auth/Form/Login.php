@@ -19,32 +19,36 @@ class Epic_Auth_Form_Login extends Epic_Form
 		$this->addElement("text", "username", array(
 			'order' => 50,
 			'required' => true,
-			'label' => 'Username'
+			'label' => 'Username',
+			'validators' => array(
+				new Epic_Auth_Validator_ExistingUser()
+			),
 		));
 
 		$this->addElement("password", "password", array(
 			'order' => 60,
 			'required' => true,
-			'label' => 'Password'
+			'label' => 'Password',
 		));
 
 		$this->setButtons(array("save" => "Login"));
 	}
 	
 	public function process($data) {
+		$this->password->setValidators(array(new Epic_Auth_Validator_UserPassword(array($data['username'], $data['password']))));
 		if($this->isValid($data)) {
 			$auth = new Epic_Auth_Adapter_MongoDb();
 			$auth->setIdentityKeyPath('username');
 			$auth->setCredentialKeyPath('password');
-			$auth->setIdentity($this->username->getValue());
+			$auth->setIdentity(strtolower($this->username->getValue()));
 			$auth->setCredential($this->password->getValue());
 			$result = Epic_Auth::getInstance()->authenticate($auth);
 			if($result->isValid()) {
 				return true;
 			} else {
-				$this->setErrors($result->getMessages());
-				return false;
+				return $this->setErrors($result->getMessages());
 			}
 		}
 		return false;
-	}} // END class Epic_Form_Login extends Epic_Form
+	}
+} // END class Epic_Form_Login extends Epic_Form
