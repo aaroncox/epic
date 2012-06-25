@@ -35,7 +35,7 @@ class Epic_Auth_Form_Login extends Epic_Form
 	}
 	
 	public function process($data) {
-		$this->password->setValidators(array(new Epic_Auth_Validator_UserPassword(array($data['username'], $data['password']))));
+		$this->password->setValidators(array(new Epic_Auth_Validator_UserPassword(array(strtolower($data['username']), $data['password']))));
 		if($this->isValid($data)) {
 			$auth = new Epic_Auth_Adapter_MongoDb();
 			$auth->setIdentityKeyPath('username');
