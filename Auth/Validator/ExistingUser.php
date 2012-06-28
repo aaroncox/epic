@@ -14,7 +14,7 @@ class Epic_Auth_Validator_ExistingUser extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::DOESNT_EXISTS => "No user exists with this username"
+        self::DOESNT_EXISTS => "The supplied login information is incorrect."
     );
 
 	/**
