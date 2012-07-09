@@ -32,8 +32,21 @@ class Epic_Route_Post extends Zend_Controller_Router_Route {
 			'type' => implode('|',self::$types),
 			'id' => '\d+|[a-f0-9]{24}',
 		);
-
+		if($config->reqs instanceof Zend_Config) {
+			$cfg = $config->reqs->toArray();
+			if(isset($cfg['type'])) {
+				static::$types = array_merge(explode("|", $reqs['type']),explode("|", $cfg['type']));
+				$reqs['type'] = implode("|", static::$types);
+			}
+		}	
 		$route = $config->route;
+		if($config->reqs instanceof Zend_Config) {
+			$cfg = $config->reqs->toArray();
+			if(isset($cfg['type'])) {
+				static::$types = array_merge(explode("|", $reqs['type']),explode("|", $cfg['type']));
+				$reqs['type'] = implode("|", static::$types);
+			}
+		}
 		$reqs = ($config->reqs instanceof Zend_Config) ? array_merge($config->reqs->toArray(),$reqs) : $reqs;
 		$defs = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() + $defaults : $defaults;
 		return new static($route, $defs, $reqs);
