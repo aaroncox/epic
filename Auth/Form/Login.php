@@ -17,7 +17,6 @@ class Epic_Auth_Form_Login extends Epic_Form
 	{
 		
 		$this->addElement("text", "username", array(
-			'order' => 50,
 			'required' => true,
 			'label' => 'Username',
 			'validators' => array(
@@ -26,7 +25,6 @@ class Epic_Auth_Form_Login extends Epic_Form
 		));
 
 		$this->addElement("password", "password", array(
-			'order' => 60,
 			'required' => true,
 			'label' => 'Password',
 		));
