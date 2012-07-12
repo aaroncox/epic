@@ -59,7 +59,23 @@ class Epic_Auth_Form_Register extends Epic_Form
 	public function process($data) {
 		$this->password2->setRequired(true)->setValidators(array(new Epic_Auth_Validator_IdenticalValidator($data['password1'])));
 		if($this->isValid($data)) {
-			// DO work!
+			$user = Epic_Mongo::newDoc('user');
+			$user->username = strtolower($this->username->getValue());
+			$user->password = md5($this->password1->getValue());
+			$user->email = $this->email->getValue();
+			$user->_registered = time();
+			$user->save();
+			$auth = new Epic_Auth_Adapter_MongoDb();
+			$auth->setIdentityKeyPath('username');
+			$auth->setCredentialKeyPath('password');
+			$auth->setIdentity(strtolower($this->username->getValue()));
+			$auth->setCredential($this->password1->getValue());
+			$result = Epic_Auth::getInstance()->authenticate($auth);
+			if($result->isValid()) {
+				return true;
+			} else {
+				return $this->setErrors($result->getMessages());
+			}
 		}
 		return false;
 	}} // END class Epic_Form_Login extends Epic_Form

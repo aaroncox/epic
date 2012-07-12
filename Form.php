@@ -40,7 +40,6 @@ class Epic_Form extends Zend_Form {
       'decorators'=>array(
         'FormElements',
         array('HtmlTag', array('tag'=>'div', 'class'=>'buttons')),
-        'DtDdWrapper'
       )
     ));
     $this->buttons->setOrder(9999);
