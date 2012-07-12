@@ -31,6 +31,7 @@ class Epic_Form extends Zend_Form {
           'label'=>$label,
           'class'=>$name,
           'decorators'=>array('ViewHelper'),
+					'tabindex' => 1000
         ));
     }
     if (!count($this->_buttons)) {
