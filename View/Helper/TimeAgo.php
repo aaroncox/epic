@@ -49,7 +49,7 @@ class Epic_View_Helper_TimeAgo extends Zend_View_Helper_Abstract {
       {
         // date in future
         $diff = abs($diff);
-        $direction = 'away';
+        $direction = '';
       }
       if ($diff < 60)
       {
