@@ -35,7 +35,6 @@ class Epic_Auth extends Zend_Auth
 	 **/
 	static public function getInstance()
 	{
-		Zend_Session::rememberMe(60*60*24*7*4);
 		// Zend_Session::setOptions(array('remember_me_seconds' => 2592000));
 		if (self::$_instance === NULL) {
 			self::$_instance = new self();
