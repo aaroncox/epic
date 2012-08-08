@@ -32,7 +32,9 @@ class Epic_Auth_Validator_UserPassword extends Zend_Validate_Abstract
 	public function isValid($value)
 	{
 		$this->_setValue($value);
-		if(!Epic_Mongo::db('user')->fetchOne(array('username' => $this->_params[0], 'password' => md5($this->_params[1])))) {
+		// var_dump($this->_params);
+		$query = array('username' => $this->_params[0], 'password' => md5($this->_params[1]));
+		if(!Epic_Mongo::db('user')->fetchOne($query)) {
 			$this->_error(self::DOESNT_MATCH);
     	return false;
 		}
