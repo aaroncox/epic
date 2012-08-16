@@ -109,11 +109,19 @@ class Epic_Form_Mongo_Post extends Epic_Form
 	
 	public function save() {
 		$post = $this->getPost();
-
+		// Get the User Profile
 		$me = Epic_Auth::getInstance()->getProfile();
-
-		$post->title = $this->title->getValue();
-
+		// Set the Author
+		$post->_author = $me;
+		// Set the time created
+		if(!$post->_created) {
+			$post->_created = time();			
+		}
+		// Set the last edited
+		$post->_edited = time();
+		if($this->title) {
+			$post->title = $this->title->getValue();			
+		}
 		if($this->published->getValue()) {
 			if($post->_published == false) {
 				$post->_published = time();				
@@ -121,7 +129,6 @@ class Epic_Form_Mongo_Post extends Epic_Form
 		} else {
 			$post->_published = false;
 		}
-
 		// Set the Body and the Source for the Article on the Post
 		$post->body = $this->source->getRenderedValue();
 		$post->source = $this->source->getValue();
@@ -131,13 +138,11 @@ class Epic_Form_Mongo_Post extends Epic_Form
 		$this->source->setValue($parts[0]);
 		// And set the article preview to that part, rendered via Markdown
 		$post->preview = $this->source->getRenderedValue();
-
+		// Set the Tags 
 		$filter = new Epic_Filter_TagJSON();
-
 		if ($this->tags) {
 			$post->tags->setTags($this->tags->getTags(),'tag');
 		}
-
 		$save = $post->save();
 		return $save;
 	}

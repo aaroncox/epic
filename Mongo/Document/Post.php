@@ -12,6 +12,7 @@ class Epic_Mongo_Document_Post extends Epic_Mongo_Document
 	protected static $_collectionName = 'posts';
 	
 	protected $_requirements = array(
+		'_author' => array('Document:Epic_Mongo_Document_User', 'AsReference')
 		'_parent' => array('Document:Epic_Mongo_Document_Post', 'AsReference'),
 		'tags' => array('DocumentSet:Epic_Mongo_DocumentSet_Tags'),
 	);
