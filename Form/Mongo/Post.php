@@ -122,7 +122,7 @@ class Epic_Form_Mongo_Post extends Epic_Form
 		if($this->title) {
 			$post->title = $this->title->getValue();			
 		}
-		if($this->published->getValue()) {
+		if($this->published && $this->published->getValue()) {
 			if($post->_published == false) {
 				$post->_published = time();				
 			}
