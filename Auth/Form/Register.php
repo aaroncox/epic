@@ -19,8 +19,9 @@ class Epic_Auth_Form_Register extends Epic_Form
 		$this->addElement("text", "username", array(
 			'required' => true,
 			'label' => 'Username',
+			'filters'    => array('StringTrim'),
 			'validators' => array(
-				new Epic_Auth_Validator_Username()
+				new Epic_Auth_Validator_Username(),
 			),
 		));
 
