@@ -9,6 +9,7 @@ class Epic_Form extends Zend_Form {
   public function init()
   {
     parent::init();
+		$this->setAttrib('accept-charset', 'utf-8');	
     $this->addPrefixPath("Epic_Form", dirname(__FILE__)."/Form");
     $this->addElementPrefixPath("Epic_Validate", dirname(__FILE__)."/Validate", "validate");
     $this->addElementPrefixPath("Epic_Filter", dirname(__FILE__)."/Filter", "filter");

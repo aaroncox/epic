@@ -17,7 +17,7 @@ class Epic_Auth_Form_Register extends Epic_Form
 	{
 		
 		$this->addElement("text", "username", array(
-			'required' => true,
+			'required' => false,
 			'label' => 'Username',
 			'filters'    => array('StringTrim'),
 			'validators' => array(
@@ -63,19 +63,34 @@ class Epic_Auth_Form_Register extends Epic_Form
 			$user = Epic_Mongo::newDoc('user');
 			$user->username = strtolower($this->username->getValue());
 			$user->password = md5($this->password1->getValue());
-			$user->email = $this->email->getValue();
+			$user->email = strtolower($this->email->getValue());
 			$user->_registered = time();
 			$user->save();
 			$auth = new Epic_Auth_Adapter_MongoDb();
 			$auth->setIdentityKeyPath('username');
 			$auth->setCredentialKeyPath('password');
-			$auth->setIdentity(strtolower($this->username->getValue()));
+			$username = strtolower($this->username->getValue());
+			if(!$username) {
+				$auth->setIdentityKeyPath('email');
+				$username = strtolower($this->email->getValue());
+			}
+			$auth->setIdentity($username);
 			$auth->setCredential($this->password1->getValue());
 			$result = Epic_Auth::getInstance()->authenticate($auth);
+			// Attempt to Login via Username
 			if($result->isValid()) {
 				return true;
 			} else {
-				return $this->setErrors($result->getMessages());
+				// Failed? Try logging in via Email Address
+				$auth->setIdentityKeyPath('email');
+				$result = Epic_Auth::getInstance()->authenticate($auth);
+				if($result->isValid()) {
+					return true;
+				} else {
+					// Still bad? Fail out
+					var_dump($result); exit;
+					return $this->setErrors($result->getMessages());
+				}
 			}
 		}
 		return false;
