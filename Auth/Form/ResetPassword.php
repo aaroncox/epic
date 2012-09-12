@@ -11,8 +11,8 @@ class Epic_Auth_Form_ResetPassword extends Epic_Form
 		parent::init();
 		$this->addElement('text', 'email', array(
 			'label'=>'Email Address',
-			'validators'=>array(
-				'EmailAddress',
+			'filters' => array(
+			 'StringtoLower'
 			),
 			'required' => true,
 		));
