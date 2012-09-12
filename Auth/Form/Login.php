@@ -22,6 +22,9 @@ class Epic_Auth_Form_Login extends Epic_Form
 			'validators' => array(
 				new Epic_Auth_Validator_ExistingUser()
 			),
+			'filters' => array(
+			 'StringtoLower'
+			),
 		));
 
 		$this->addElement("password", "password", array(
