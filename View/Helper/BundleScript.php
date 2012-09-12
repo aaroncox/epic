@@ -343,7 +343,7 @@ class Epic_View_Helper_BundleScript extends Zend_View_Helper_HeadScript
             $cacheTime = filemtime($cacheFile);
         }
 
-        $urlPath = "{$this->_baseUrl}/{$this->_urlPrefix}/bundle_{$hash}.js?{$cacheTime}";
+        $urlPath = "{$this->_baseUrl}/{$this->_urlPrefix}/bundle_{$hash}.js";//"?{$cacheTime}";
         $ret = '<script type="text/javascript" src="' . $urlPath . '"></script>';
         return $ret;
     }
