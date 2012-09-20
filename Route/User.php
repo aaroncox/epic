@@ -32,7 +32,13 @@ class Epic_Route_User extends Zend_Controller_Router_Route {
 			'type' => implode('|',self::$types),
 			'id' => '\d+|[a-f0-9]{24}',
 		);
-
+    if($config->reqs instanceof Zend_Config) {
+			$cfg = $config->reqs->toArray();
+			if(isset($cfg['type'])) {
+				static::$types = array_merge(explode("|", $reqs['type']),explode("|", $cfg['type']));
+				$reqs['type'] = implode("|", static::$types);
+			}
+		}
 		$route = $config->route;
 		$reqs = ($config->reqs instanceof Zend_Config) ? array_merge($config->reqs->toArray(),$reqs) : $reqs;
 		$defs = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() + $defaults : $defaults;
@@ -54,7 +60,7 @@ class Epic_Route_User extends Zend_Controller_Router_Route {
 			$data['slug'] = $filter->filter($user->name);
 			unset($data['user']);
 		} else {
-			throw new Exception("Expected EpicDb_Mongo_User, got ".get_class($data['user']));
+			throw new Exception("Expected Epic_Mongo_Document_User, got ".get_class($data['user']));
 		}
 		// foreach ($data as $key => $value) {
 		// 	if ( isset($this->_defaults[$key]) && $this->_defaults[$key] == $value ) {
@@ -70,8 +76,8 @@ class Epic_Route_User extends Zend_Controller_Router_Route {
 		if(!in_array($params['type'], static::$types)) {
 			return null;
 		}
-		// var_dump(Epic_Mongo::db($params['type'])->fetchOne(array('id'=>(int)$params['id'])), $params['id']);
-		return Epic_Mongo::db($params['type'])->fetchOne(array('id'=>(int)$params['id']));
+    // var_dump(Epic_Mongo::db($params['type'])->fetchOne(array('id'=>(int)$params['id'])), $params['id']);
+    return Epic_Mongo::db($params['type'])->fetchOne(array('id'=>(int)$params['id']));
 	}
 
 	public function match($path, $partial = false)

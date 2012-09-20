@@ -99,18 +99,22 @@ class Epic_Mongo_Schema extends Epic_Mongo_Document {
 		if ($this->_parent) {
 			return $this->_parent->getClassForType($type);
 		}
-		if (isset($this->_classMap[$type])) {
-			return $this->_classMap[$type];
-		}		
+    // if (isset($this->_classMap[$type])) {
+    //  return $this->_classMap[$type];
+    // }    
 		// Lets load the Default Schema's classMap
     $bootstrap = Zend_Controller_Front::getInstance()->getParam('bootstrap');
     $options = $bootstrap->getOptions();
 		$schemaClass = $options['resources']['mongo']['default']['schema'];
 		$schema = new $schemaClass;
 		// Now add the classMap to ours
+		$tempMap = array();
 		foreach($schema->_classMap as $map) {
-			$this->_classMap += $map;
+		  $tempMap += $map;
+      // $this->_classMap += $map;
 		}
+		$tempMap += $this->_classMap;
+		$this->_classMap = $tempMap;
 		// Query again for the type
 		if (isset($this->_classMap[$type])) {
 			return $this->_classMap[$type];
