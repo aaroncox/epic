@@ -52,6 +52,9 @@ class Epic_Auth_Form_Register extends Epic_Form
 				new Zend_Validate_EmailAddress(),
 				new Epic_Auth_Validator_Email(),
 			),
+			'filters' => array(
+			 'StringtoLower'
+			),
 		));
 
 		$this->setButtons(array("save" => "Register"));
