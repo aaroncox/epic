@@ -49,7 +49,7 @@ class Epic_Filter_HtmlPurifier implements Zend_Filter_Interface {
 				}
 		}
 		if ( $callback ) {
-			call_user_func( $callback, $config, &$options );
+			call_user_func( $callback, $config, $options );
 		}
 
 		$this->_htmlPurifier = new HTMLPurifier($config);
