@@ -99,7 +99,7 @@ class Epic_Mongo_Document extends Shanty_Mongo_Document {
 	public function postSave() {}
 	public function preSave() {}
 
-	public function save() {
+	public function save($entierDocument = false) {
 		if(isset(static::$_documentType) || isset(static::$_baseType)) {
 			$this->_type = static::$_documentType ?: static::$_baseType;
 			if(!$this->id) {
@@ -112,11 +112,11 @@ class Epic_Mongo_Document extends Shanty_Mongo_Document {
 		return $return;
 	}
 
-	public static function remove($query = array()) {
+	public static function remove(array $criteria, $justone = false) {
 		if(static::$_documentType) {
-			$query["_type"] = static::$_documentType;
+			$criteria["_type"] = static::$_documentType;
 		}
-		parent::remove($query);
+		parent::remove($criteria, $justone);
 	}
 
 	public static function fetchOne($query = array()) {
@@ -165,11 +165,16 @@ class Epic_Mongo_Document extends Shanty_Mongo_Document {
 				$query["_type"] = static::$_documentType;				
 			// }
 		}
+		// if($user = D3Up_Auth::getInstance()->getProfile()) {
+		// 	if($user->id == 2) {
+		// 		var_dump(static::$_collectionName, json_encode($query), json_encode($sort));
+		// 	}
+		// }
 		return parent::fetchAll($query, $sort, $limit, $skip);
 	}
 
-	public static function getMongoCollection() {
-		return parent::getMongoCollection();
+	public static function getMongoCollection($writable = true) {
+		return parent::getMongoCollection($writable = true);
 	}
 
 	/**
