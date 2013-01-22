@@ -335,7 +335,7 @@ class Epic_View_Helper_BundleLink extends Zend_View_Helper_HeadLink
 			$cacheTime = filemtime($cacheFile);
 		}
 
-		$urlPath = "{$this->_baseUrl}/{$this->_urlPrefix}/bundle_{$hash}.css"; //"?{$cacheTime}"; Removed to fix proxy caching issues.
+		$urlPath = "{$this->_baseUrl}/{$this->_urlPrefix}/bundle_{$hash}.css?{$cacheTime}"; Removed to fix proxy caching issues.
 		$ret = '<link href="' . $urlPath . '" media="screen" rel="stylesheet" type="text/css" />';
 		return $ret;
 	}
