@@ -112,7 +112,7 @@ class Epic_Mongo_Document extends Shanty_Mongo_Document {
 		return $return;
 	}
 
-	public static function remove(array $criteria = array(), $justone = array()) {
+	public static function remove(array $criteria = array(), $justone = false) {
 		if(static::$_documentType) {
 			$criteria["_type"] = static::$_documentType;
 		}
